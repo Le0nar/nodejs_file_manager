@@ -1,0 +1,1 @@
+export const showCurrentDirectory = (path) => console.log(`You are currently in ${path}`)
