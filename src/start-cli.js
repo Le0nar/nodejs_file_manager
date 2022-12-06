@@ -1,8 +1,8 @@
-import { getParentDirname } from "./fs-operations/get-parent-dirname.js";
-import { goodbye } from "./utils/goodbye.utils.js";
-import { greeting } from "./utils/greeting.utils.js";
-import { showCurrentDirectory } from "./utils/show-current-directory.utils.js";
 import { homedir } from "node:os";
+import { getParentDirname } from "./fs-operations/get-parent-dirname.js";
+import { goodbye } from "./logging/goodbye.js";
+import { greeting } from "./logging/greeting.js";
+import { showCurrentDirectory } from "./logging/show-current-directory.js";
 
 // TODO: rename it
 export const startCli = async () => {

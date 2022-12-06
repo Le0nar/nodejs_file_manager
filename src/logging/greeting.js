@@ -1,4 +1,4 @@
-import { getArgValue } from "./get-arg-value.utils.js"
+import { getArgValue } from "../utils/get-arg-value.utils.js"
 
 export const greeting = (key) => {
     const userName = getArgValue(key)
