@@ -1,30 +1,28 @@
 import { homedir } from "node:os";
-import { getParentDirname } from "./fs-operations/get-parent-dirname.js";
-import { goodbye } from "./logging/goodbye.js";
-import { greeting } from "./logging/greeting.js";
-import { showCurrentDirectory } from "./logging/show-current-directory.js";
+import { fileSystem } from "./operations/file-system.js";
+import { loggingMessages } from "./operations/logging-mesages.js";
 
 // TODO: rename it
 export const startCli = async () => {
-    const readable = process.stdin
-
-    greeting('--username')
+    loggingMessages.greeting('--username')
 
     let currentDirectory = homedir()
-    showCurrentDirectory(currentDirectory)
+    loggingMessages.showCurrentDirectory(currentDirectory)
 
+    const readable = process.stdin
     // TODO: move handler to separate function
     readable.on('data', (chunk) => {
         const stringifiedChunk = chunk.toString().trim()
 
         switch (stringifiedChunk) {
             case '.exit':
-                goodbye('--username')
+                loggingMessages.goodbye('--username')
                 process.exit(0)
 
+            case 'cd ..':
             case 'up':
-                currentDirectory = getParentDirname(currentDirectory)
-                showCurrentDirectory(currentDirectory)
+                currentDirectory = fileSystem.getParentDirname(currentDirectory)
+                loggingMessages.showCurrentDirectory(currentDirectory)
                 break;
 
             default:
@@ -34,7 +32,7 @@ export const startCli = async () => {
     })
 
     process.on('SIGINT', () => {
-        goodbye('--username')
+        loggingMessages.goodbye('--username')
         process.exit(0);
     });
 };
