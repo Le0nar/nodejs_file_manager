@@ -2,7 +2,7 @@ import { homedir } from "node:os";
 import { fileSystem } from "./operations/file-system.js";
 import { loggingMessages } from "./operations/logging-mesages.js";
 
-// TODO: rename it
+// TODO: rename it & mb refactor to readline
 export const startCli = async () => {
     loggingMessages.greeting('--username')
 
