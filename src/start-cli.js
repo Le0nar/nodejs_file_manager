@@ -26,12 +26,17 @@ export const startCli = async () => {
                 currentDirectory = fileSystem.getParentDirname(currentDirectory)
                 loggingMessages.showCurrentDirectory(currentDirectory)
                 return
+
+            case 'ls':
+                fileSystem.listFiles(currentDirectory)
+                return
         }
 
         const splitedChunk = chunk.split(' ')
         const [firstWord] = splitedChunk
         switch (firstWord) {
             case 'cd':
+                // TODO: add handle for relative path
                 const path = splitedChunk[1]
                 if (path === '..') {
                     currentDirectory = fileSystem.getParentDirname(currentDirectory)
