@@ -1,3 +1,4 @@
+import { access } from "node:fs/promises";
 import { sep } from "node:path";
 
 class FileSystem {
@@ -9,6 +10,15 @@ class FileSystem {
         splitedDirname.pop()
         const parentDirname = splitedDirname.join(sep)
         return parentDirname
+    }
+
+    async checkDirectoryExist(path) {
+        try {
+            await access(path)
+            return true
+        } catch {
+            return false
+        }
     }
 }
 

@@ -14,19 +14,39 @@ export const startCli = async () => {
     const readline = createInterface({ input, output });
 
     // TODO: move handler to separate function
-    readline.on('line', (chunk) => {
+    readline.on('line', async (chunk) => {
         const stringifiedChunk = chunk.toString().trim()
-
         switch (stringifiedChunk) {
             case '.exit':
                 loggingMessages.goodbye('--username')
                 readline.close()
-                break;
+                return
 
-            case 'cd ..':
             case 'up':
                 currentDirectory = fileSystem.getParentDirname(currentDirectory)
                 loggingMessages.showCurrentDirectory(currentDirectory)
+                return
+        }
+
+        const splitedChunk = chunk.split(' ')
+        const [firstWord] = splitedChunk
+        switch (firstWord) {
+            case 'cd':
+                const path = splitedChunk[1]
+                if (path === '..') {
+                    currentDirectory = fileSystem.getParentDirname(currentDirectory)
+                    loggingMessages.showCurrentDirectory(currentDirectory)
+                    break
+                }
+
+                const isDirectoryExist = await fileSystem.checkDirectoryExist(path)
+
+                if (isDirectoryExist) {
+                    currentDirectory = path
+                    loggingMessages.showCurrentDirectory(currentDirectory)
+                } else {
+                    console.log('Operation failed')
+                }
                 break;
 
             default:
