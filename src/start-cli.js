@@ -1,23 +1,27 @@
 import { homedir } from "node:os";
+import { createInterface } from "node:readline";
+import { stdin as input, stdout as output } from 'node:process';
 import { fileSystem } from "./operations/file-system.js";
 import { loggingMessages } from "./operations/logging-mesages.js";
 
-// TODO: rename it & mb refactor to readline
+// TODO: rename it
 export const startCli = async () => {
     loggingMessages.greeting('--username')
 
     let currentDirectory = homedir()
     loggingMessages.showCurrentDirectory(currentDirectory)
 
-    const readable = process.stdin
+    const readline = createInterface({ input, output });
+
     // TODO: move handler to separate function
-    readable.on('data', (chunk) => {
+    readline.on('line', (chunk) => {
         const stringifiedChunk = chunk.toString().trim()
 
         switch (stringifiedChunk) {
             case '.exit':
                 loggingMessages.goodbye('--username')
-                process.exit(0)
+                readline.close()
+                break;
 
             case 'cd ..':
             case 'up':
@@ -31,8 +35,8 @@ export const startCli = async () => {
         }
     })
 
-    process.on('SIGINT', () => {
+    readline.on('SIGINT', () => {
         loggingMessages.goodbye('--username')
-        process.exit(0);
+        readline.close()
     });
 };
