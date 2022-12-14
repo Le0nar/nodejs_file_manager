@@ -36,6 +36,7 @@ export const startCli = async () => {
         const splitedChunk = chunk.split(' ')
         // TODO: rename it
         const [commandName, argument] = splitedChunk
+        const path = fileSystem.getPath(argument, currentDirectory)
         switch (commandName) {
             case 'cd':
                 // TODO: move to method in file systemcd
@@ -43,17 +44,6 @@ export const startCli = async () => {
                     currentDirectory = fileSystem.getParentDirname(currentDirectory)
                     loggingMessages.showCurrentDirectory(currentDirectory)
                     break
-                }
-
-                let path = ''
-
-                const isPath = argument.includes(sep) || argument.includes(':')
-                if (isPath) {
-                    path = argument
-                } else {
-                    const isSepLastChar = currentDirectory[currentDirectory.length - 1] === sep
-                    const calculatedPath = isSepLastChar ? `${currentDirectory}${argument}` : `${currentDirectory}${sep}${argument}`
-                    path = calculatedPath
                 }
 
                 const isDirectoryExist = await fileSystem.checkExist(path)
@@ -69,6 +59,11 @@ export const startCli = async () => {
             case 'cat':
                 fileSystem.catenateFile(argument)
                 break;
+
+            case 'add':
+                fileSystem.createFile(path)
+                break;
+
             default:
                 console.log('Invalid input')
                 break;

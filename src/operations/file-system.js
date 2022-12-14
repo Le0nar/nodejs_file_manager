@@ -1,5 +1,5 @@
 import { createReadStream } from "node:fs";
-import { access, readdir } from "node:fs/promises";
+import { access, appendFile, readdir } from "node:fs/promises";
 import { sep } from "node:path";
 
 class FileSystem {
@@ -55,6 +55,31 @@ class FileSystem {
         const readable = createReadStream(path)
         readable.on('end', () => console.log(''))
         readable.pipe(process.stdout)
+    }
+
+    createFile(path) {
+        try {
+            appendFile(path, '')
+        } catch (err) {
+            console.log('Operation failed')
+        }
+
+    }
+
+    // TODO: rename pathOrFileNames
+    getPath(pathOrFileName, workDirectoryPath) {
+        let path = ''
+
+        const isPath = pathOrFileName.includes(sep) || pathOrFileName.includes(':')
+        if (isPath) {
+            path = pathOrFileName
+        } else {
+            const isSepLastChar = workDirectoryPath[workDirectoryPath.length - 1] === sep
+            const calculatedPath = isSepLastChar ? `${workDirectoryPath}${pathOrFileName}` : `${workDirectoryPath}${sep}${pathOrFileName}`
+            path = calculatedPath
+        }
+
+        return path
     }
 }
 
