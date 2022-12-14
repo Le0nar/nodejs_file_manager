@@ -1,6 +1,7 @@
-import { homedir } from "node:os";
+import { homedir, } from "node:os";
 import { createInterface } from "node:readline";
 import { stdin as input, stdout as output } from 'node:process';
+import { sep } from "node:path";
 import { fileSystem } from "./operations/file-system.js";
 import { loggingMessages } from "./operations/logging-mesages.js";
 
@@ -36,12 +37,23 @@ export const startCli = async () => {
         const [firstWord] = splitedChunk
         switch (firstWord) {
             case 'cd':
-                // TODO: add handle for relative path
-                const path = splitedChunk[1]
-                if (path === '..') {
+                // TODO: rename it
+                const secondArg = splitedChunk[1]
+                if (secondArg === '..') {
                     currentDirectory = fileSystem.getParentDirname(currentDirectory)
                     loggingMessages.showCurrentDirectory(currentDirectory)
                     break
+                }
+
+                let path = ''
+
+                const isPath = secondArg.includes(sep) || secondArg.includes(':')
+                if (isPath) {
+                    path = secondArg
+                } else {
+                    const isSepLastChar = currentDirectory[currentDirectory.length - 1] === sep
+                    const calculatedPath = isSepLastChar ? `${currentDirectory}${secondArg}` : `${currentDirectory}${sep}${secondArg}`
+                    path = calculatedPath
                 }
 
                 const isDirectoryExist = await fileSystem.checkDirectoryExist(path)
