@@ -47,9 +47,9 @@ class FileSystem {
         }
     }
 
-    createFile(path) {
+    async createFile(path) {
         try {
-            appendFile(path, '')
+            await appendFile(path, '')
         } catch (err) {
             console.log('Operation failed')
         }

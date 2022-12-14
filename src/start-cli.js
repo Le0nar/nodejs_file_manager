@@ -47,6 +47,7 @@ export const startCli = async () => {
                     break
                 }
 
+                // TODO: mb rewrite to try catch and 'acces' instead of if/else and checkExist
                 const isDirectoryExist = await fileSystem.checkExist(path)
 
                 if (isDirectoryExist) {
