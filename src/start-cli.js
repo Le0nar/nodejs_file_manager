@@ -4,6 +4,7 @@ import { stdin as input, stdout as output } from 'node:process';
 import { sep } from "node:path";
 import { fileSystem } from "./operations/file-system.js";
 import { loggingMessages } from "./operations/logging-mesages.js";
+import { workDirectory } from "./operations/work-directory.js";
 
 // TODO: rename it
 export const startCli = async () => {
@@ -24,7 +25,7 @@ export const startCli = async () => {
                 return
 
             case 'up':
-                currentDirectory = fileSystem.getParentDirname(currentDirectory)
+                currentDirectory = workDirectory.getParentDirname(currentDirectory)
                 loggingMessages.showCurrentDirectory(currentDirectory)
                 return
 
@@ -36,12 +37,12 @@ export const startCli = async () => {
         const splitedChunk = chunk.split(' ')
         // TODO: rename it
         const [commandName, argument] = splitedChunk
-        const path = fileSystem.getPath(argument, currentDirectory)
+        const path = workDirectory.getPath(argument, currentDirectory)
         switch (commandName) {
             case 'cd':
-                // TODO: move to method in file systemcd
+                // TODO: move to method in file system
                 if (argument === '..') {
-                    currentDirectory = fileSystem.getParentDirname(currentDirectory)
+                    currentDirectory = workDirectory.getParentDirname(currentDirectory)
                     loggingMessages.showCurrentDirectory(currentDirectory)
                     break
                 }

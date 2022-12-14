@@ -1,18 +1,7 @@
 import { createReadStream } from "node:fs";
 import { access, appendFile, readdir } from "node:fs/promises";
-import { sep } from "node:path";
 
 class FileSystem {
-    getParentDirname(dirname) {
-        const splitedDirname = dirname.split(sep)
-
-        if (splitedDirname.length === 1) return dirname
-
-        splitedDirname.pop()
-        const parentDirname = splitedDirname.join(sep)
-        return parentDirname
-    }
-
     async checkExist(path) {
         try {
             await access(path)
@@ -64,22 +53,6 @@ class FileSystem {
             console.log('Operation failed')
         }
 
-    }
-
-    // TODO: rename pathOrFileNames
-    getPath(pathOrFileName, workDirectoryPath) {
-        let path = ''
-
-        const isPath = pathOrFileName.includes(sep) || pathOrFileName.includes(':')
-        if (isPath) {
-            path = pathOrFileName
-        } else {
-            const isSepLastChar = workDirectoryPath[workDirectoryPath.length - 1] === sep
-            const calculatedPath = isSepLastChar ? `${workDirectoryPath}${pathOrFileName}` : `${workDirectoryPath}${sep}${pathOrFileName}`
-            path = calculatedPath
-        }
-
-        return path
     }
 }
 
