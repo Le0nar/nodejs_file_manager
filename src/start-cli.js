@@ -18,6 +18,7 @@ export const startCli = async () => {
     // TODO: move handler to separate function
     readline.on('line', async (chunk) => {
         const stringifiedChunk = chunk.toString().trim()
+        //TODO: move cases to bottom switch with 'break' instead of 'return'
         switch (stringifiedChunk) {
             case '.exit':
                 loggingMessages.goodbye('--username')
@@ -68,6 +69,10 @@ export const startCli = async () => {
 
             case 'rn':
                 fileSystem.renameFile(firstArgument, secondArgument)
+                break;
+
+            case 'cp':
+                fileSystem.copyFile(firstArgument, secondArgument)
                 break;
 
             default:

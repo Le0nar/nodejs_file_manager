@@ -1,6 +1,6 @@
-import { createReadStream } from "node:fs";
+import { createReadStream, createWriteStream } from "node:fs";
 import { access, appendFile, readdir, rename } from "node:fs/promises";
-import { sep } from "node:path";
+import { basename, sep } from "node:path";
 
 class FileSystem {
     async checkExist(path) {
@@ -65,6 +65,24 @@ class FileSystem {
 
             await rename(path, newFilePath)
 
+        } catch {
+            console.log('Operation failed')
+        }
+    }
+
+    async copyFile(pathToFile, pathToNewDirectory) {
+        try {
+            await access(pathToFile)
+            await access(pathToNewDirectory)
+
+            const fileName = basename(pathToFile)
+            const pathToNewFile = `${pathToNewDirectory}${sep}${fileName}`
+
+            await appendFile(pathToNewFile, '')
+
+            const readable = createReadStream(pathToFile)
+            const writable = createWriteStream(pathToNewFile)
+            readable.pipe(writable)
         } catch {
             console.log('Operation failed')
         }
