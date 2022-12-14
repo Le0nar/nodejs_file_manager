@@ -3,6 +3,7 @@ import { sep } from "node:path";
 class WorkDirectory {
     // TODO: mb move filed for current work directory name here
 
+    // TODO: rename 'dirname' to path
     getParentDirname(dirname) {
         const splitedDirname = dirname.split(sep)
 

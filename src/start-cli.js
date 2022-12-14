@@ -36,12 +36,12 @@ export const startCli = async () => {
 
         const splitedChunk = chunk.split(' ')
         // TODO: rename it
-        const [commandName, argument] = splitedChunk
-        const path = workDirectory.getPath(argument, currentDirectory)
+        const [commandName, firstArgument, secondArgument] = splitedChunk
+        const path = workDirectory.getPath(firstArgument, currentDirectory)
         switch (commandName) {
             case 'cd':
                 // TODO: move to method in file system
-                if (argument === '..') {
+                if (firstArgument === '..') {
                     currentDirectory = workDirectory.getParentDirname(currentDirectory)
                     loggingMessages.showCurrentDirectory(currentDirectory)
                     break
@@ -58,11 +58,15 @@ export const startCli = async () => {
                 break;
 
             case 'cat':
-                fileSystem.catenateFile(argument)
+                fileSystem.catenateFile(firstArgument)
                 break;
 
             case 'add':
                 fileSystem.createFile(path)
+                break;
+
+            case 'rn':
+                fileSystem.renameFile(firstArgument, secondArgument)
                 break;
 
             default:

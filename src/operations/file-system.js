@@ -1,5 +1,6 @@
 import { createReadStream } from "node:fs";
-import { access, appendFile, readdir } from "node:fs/promises";
+import { access, appendFile, readdir, rename } from "node:fs/promises";
+import { sep } from "node:path";
 
 class FileSystem {
     async checkExist(path) {
@@ -53,6 +54,20 @@ class FileSystem {
             console.log('Operation failed')
         }
 
+    }
+
+    async renameFile(path, newName) {
+        try {
+            const splittedPath = path.split(sep)
+            splittedPath.pop()
+            const directoryPath = splittedPath.join(sep)
+            const newFilePath = `${directoryPath}${sep}${newName}`
+
+            await rename(path, newFilePath)
+
+        } catch {
+            console.log('Operation failed')
+        }
     }
 }
 
