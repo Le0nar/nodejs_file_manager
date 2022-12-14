@@ -34,12 +34,12 @@ export const startCli = async () => {
         }
 
         const splitedChunk = chunk.split(' ')
-        const [firstWord] = splitedChunk
-        switch (firstWord) {
+        // TODO: rename it
+        const [commandName, argument] = splitedChunk
+        switch (commandName) {
             case 'cd':
-                // TODO: rename it
-                const secondArg = splitedChunk[1]
-                if (secondArg === '..') {
+                // TODO: move to method in file systemcd
+                if (argument === '..') {
                     currentDirectory = fileSystem.getParentDirname(currentDirectory)
                     loggingMessages.showCurrentDirectory(currentDirectory)
                     break
@@ -47,16 +47,16 @@ export const startCli = async () => {
 
                 let path = ''
 
-                const isPath = secondArg.includes(sep) || secondArg.includes(':')
+                const isPath = argument.includes(sep) || argument.includes(':')
                 if (isPath) {
-                    path = secondArg
+                    path = argument
                 } else {
                     const isSepLastChar = currentDirectory[currentDirectory.length - 1] === sep
-                    const calculatedPath = isSepLastChar ? `${currentDirectory}${secondArg}` : `${currentDirectory}${sep}${secondArg}`
+                    const calculatedPath = isSepLastChar ? `${currentDirectory}${argument}` : `${currentDirectory}${sep}${argument}`
                     path = calculatedPath
                 }
 
-                const isDirectoryExist = await fileSystem.checkDirectoryExist(path)
+                const isDirectoryExist = await fileSystem.checkExist(path)
 
                 if (isDirectoryExist) {
                     currentDirectory = path
@@ -66,6 +66,9 @@ export const startCli = async () => {
                 }
                 break;
 
+            case 'cat':
+                fileSystem.catenateFile(argument)
+                break;
             default:
                 console.log('Invalid input')
                 break;
