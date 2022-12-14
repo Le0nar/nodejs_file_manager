@@ -34,16 +34,16 @@ class FileSystem {
         console.table(changedList)
     }
 
-    catenateFile(path) {
-        const isFileExist = this.checkExist(path)
-        if (!isFileExist) {
-            console.log('Operation failed')
-            return
-        }
+    async catenateFile(path) {
+        try {
+            await access(path)
 
-        const readable = createReadStream(path)
-        readable.on('end', () => console.log(''))
-        readable.pipe(process.stdout)
+            const readable = createReadStream(path)
+            readable.on('end', () => console.log(''))
+            readable.pipe(process.stdout)
+        } catch {
+            console.log('Operation failed')
+        }
     }
 
     createFile(path) {
