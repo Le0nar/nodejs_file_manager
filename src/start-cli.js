@@ -1,9 +1,10 @@
-import { homedir, } from "node:os";
+import { homedir } from "node:os";
 import { createInterface } from "node:readline";
 import { stdin as input, stdout as output } from 'node:process';
 import { fileSystem } from "./operations/file-system.js";
 import { loggingMessages } from "./operations/logging-mesages.js";
 import { workDirectory } from "./operations/work-directory.js";
+import { operatingSystem } from "./operations/operating-system.js";
 
 // TODO: rename it
 export const startCli = async () => {
@@ -80,6 +81,10 @@ export const startCli = async () => {
 
             case 'rm':
                 fileSystem.removeFile(firstArgument)
+                break;
+
+            case 'os':
+                operatingSystem.printOsInfo(firstArgument)
                 break;
 
             default:
