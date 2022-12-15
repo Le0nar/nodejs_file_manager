@@ -1,24 +1,33 @@
 import { access } from "node:fs/promises";
+import { homedir } from "node:os";
 import { sep } from "node:path";
 import { loggingMessages } from "./logging-mesages.js";
 
 class WorkDirectory {
+    currentDirectory = homedir()
+
+    setCurrentDirectory(path) {
+        this.currentDirectory = path
+    }
+
     async changeDirectory(firstArgument, currentDirectory) {
         if (firstArgument === '..') {
             const parentDirectory = workDirectory.getParentDirectory(currentDirectory)
             loggingMessages.showCurrentDirectory(parentDirectory)
-            return parentDirectory
+
+            this.setCurrentDirectory(parentDirectory)
+            return
         }
 
         try {
             const path = this.getPath(firstArgument, currentDirectory)
+            // TODO: add check isDir
             await access(path)
 
             loggingMessages.showCurrentDirectory(path)
-            return path
+            this.setCurrentDirectory(path)
         } catch {
             console.log('Operation failed')
-            return currentDirectory
         }
     }
 
