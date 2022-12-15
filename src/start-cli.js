@@ -1,7 +1,6 @@
 import { homedir, } from "node:os";
 import { createInterface } from "node:readline";
 import { stdin as input, stdout as output } from 'node:process';
-import { sep } from "node:path";
 import { fileSystem } from "./operations/file-system.js";
 import { loggingMessages } from "./operations/logging-mesages.js";
 import { workDirectory } from "./operations/work-directory.js";

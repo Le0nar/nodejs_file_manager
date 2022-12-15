@@ -17,6 +17,8 @@ class WorkDirectory {
     getPath(filePathOrFileName, workDirectoryPath) {
         let path = ''
 
+        if (!filePathOrFileName) return path
+
         const isPath = filePathOrFileName.includes(sep) || filePathOrFileName.includes(':')
         if (isPath) {
             path = filePathOrFileName
