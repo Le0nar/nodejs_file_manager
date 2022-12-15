@@ -1,5 +1,5 @@
 import { createReadStream, createWriteStream } from "node:fs";
-import { access, appendFile, readdir, rename } from "node:fs/promises";
+import { access, appendFile, readdir, rename, unlink } from "node:fs/promises";
 import { basename, sep } from "node:path";
 
 class FileSystem {
@@ -83,6 +83,24 @@ class FileSystem {
             const readable = createReadStream(pathToFile)
             const writable = createWriteStream(pathToNewFile)
             readable.pipe(writable)
+        } catch {
+            console.log('Operation failed')
+        }
+    }
+
+    async moveFile(pathToFile, pathToNewDirectory) {
+        await this.copyFile(pathToFile, pathToNewDirectory)
+
+        try {
+            await unlink(pathToFile)
+        } catch {
+            console.log('Operation failed')
+        }
+    }
+
+    async removeFile(path) {
+        try {
+            await unlink(path)
         } catch {
             console.log('Operation failed')
         }

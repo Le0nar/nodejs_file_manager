@@ -74,6 +74,14 @@ export const startCli = async () => {
                 fileSystem.copyFile(firstArgument, secondArgument)
                 break;
 
+            case 'mv':
+                fileSystem.moveFile(firstArgument, secondArgument)
+                break;
+
+            case 'rm':
+                fileSystem.removeFile(firstArgument)
+                break;
+
             default:
                 console.log('Invalid input')
                 break;
