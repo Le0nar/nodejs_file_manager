@@ -1,7 +1,26 @@
+import { access } from "node:fs/promises";
 import { sep } from "node:path";
+import { loggingMessages } from "./logging-mesages.js";
 
 class WorkDirectory {
-    // TODO: mb move filed for current work directory name here
+    async changeDirectory(firstArgument, currentDirectory) {
+        if (firstArgument === '..') {
+            const parentDirectory = workDirectory.getParentDirname(currentDirectory)
+            loggingMessages.showCurrentDirectory(parentDirectory)
+            return parentDirectory
+        }
+
+        try {
+            const path = this.getPath(firstArgument, currentDirectory)
+            await access(path)
+
+            loggingMessages.showCurrentDirectory(path)
+            return path
+        } catch {
+            console.log('Operation failed')
+            return currentDirectory
+        }
+    }
 
     // TODO: rename 'dirname' to path
     getParentDirname(dirname) {

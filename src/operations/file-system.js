@@ -3,15 +3,6 @@ import { access, appendFile, readdir, rename, unlink } from "node:fs/promises";
 import { basename, sep } from "node:path";
 
 class FileSystem {
-    async checkExist(path) {
-        try {
-            await access(path)
-            return true
-        } catch {
-            return false
-        }
-    }
-
     async listFiles(path) {
         // TODO: rename it
         const list = await readdir(path, { withFileTypes: true })

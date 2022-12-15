@@ -38,27 +38,11 @@ export const startCli = async () => {
         }
 
         const splitedChunk = chunk.split(' ')
-        // TODO: rename it
         const [commandName, firstArgument, secondArgument] = splitedChunk
-        const path = workDirectory.getPath(firstArgument, currentDirectory)
+
         switch (commandName) {
             case 'cd':
-                // TODO: move to method in file system
-                if (firstArgument === '..') {
-                    currentDirectory = workDirectory.getParentDirname(currentDirectory)
-                    loggingMessages.showCurrentDirectory(currentDirectory)
-                    break
-                }
-
-                // TODO: mb rewrite to try catch and 'acces' instead of if/else and checkExist
-                const isDirectoryExist = await fileSystem.checkExist(path)
-
-                if (isDirectoryExist) {
-                    currentDirectory = path
-                    loggingMessages.showCurrentDirectory(currentDirectory)
-                } else {
-                    console.log('Operation failed')
-                }
+                currentDirectory = await workDirectory.changeDirectory(firstArgument, currentDirectory)
                 break;
 
             case 'cat':
@@ -66,6 +50,7 @@ export const startCli = async () => {
                 break;
 
             case 'add':
+                const path = workDirectory.getPath(firstArgument, currentDirectory)
                 fileSystem.createFile(path)
                 break;
 
