@@ -1,4 +1,4 @@
-import { access } from "node:fs/promises";
+import { lstat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { sep } from "node:path";
 import { loggingMessages } from "./logging-mesages.js";
@@ -21,11 +21,15 @@ class WorkDirectory {
 
         try {
             const path = this.getPath(firstArgument, currentDirectory)
-            // TODO: add check isDir
-            await access(path)
+            const directoryStats = await lstat(path)
+            const isDirectory = directoryStats.isDirectory()
 
-            loggingMessages.showCurrentDirectory(path)
-            this.setCurrentDirectory(path)
+            if (isDirectory) {
+                loggingMessages.showCurrentDirectory(path)
+                this.setCurrentDirectory(path)
+            } else {
+                console.log('Operation failed')
+            }
         } catch {
             console.log('Operation failed')
         }

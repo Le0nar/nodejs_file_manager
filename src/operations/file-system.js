@@ -4,7 +4,6 @@ import { basename, sep } from "node:path";
 
 class FileSystem {
     async listFiles(path) {
-        // TODO: rename it
         const list = await readdir(path, { withFileTypes: true })
 
         const files = []
