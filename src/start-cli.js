@@ -6,6 +6,7 @@ import { loggingMessages } from "./operations/logging-mesages.js";
 import { workDirectory } from "./operations/work-directory.js";
 import { operatingSystem } from "./operations/operating-system.js";
 import { hash } from "./operations/hash.js";
+import { compression } from "./operations/compression.js";
 
 // TODO: rename it
 export const startCli = async () => {
@@ -90,6 +91,14 @@ export const startCli = async () => {
 
             case 'hash':
                 hash.calculateFile(firstArgument)
+                break;
+
+            case 'compress':
+                compression.compress(firstArgument, secondArgument)
+                break;
+
+            case 'decompress':
+                compression.decompress(firstArgument, secondArgument)
                 break;
 
             default:
