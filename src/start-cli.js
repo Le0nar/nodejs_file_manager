@@ -5,6 +5,7 @@ import { fileSystem } from "./operations/file-system.js";
 import { loggingMessages } from "./operations/logging-mesages.js";
 import { workDirectory } from "./operations/work-directory.js";
 import { operatingSystem } from "./operations/operating-system.js";
+import { hash } from "./operations/hash.js";
 
 // TODO: rename it
 export const startCli = async () => {
@@ -85,6 +86,10 @@ export const startCli = async () => {
 
             case 'os':
                 operatingSystem.printOsInfo(firstArgument)
+                break;
+
+            case 'hash':
+                hash.calculateFile(firstArgument)
                 break;
 
             default:
