@@ -28,7 +28,7 @@ export const startCli = async () => {
                 return
 
             case 'up':
-                currentDirectory = workDirectory.getParentDirname(currentDirectory)
+                currentDirectory = workDirectory.getParentDirectory(currentDirectory)
                 loggingMessages.showCurrentDirectory(currentDirectory)
                 return
 

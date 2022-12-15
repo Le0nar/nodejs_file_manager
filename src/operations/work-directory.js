@@ -5,7 +5,7 @@ import { loggingMessages } from "./logging-mesages.js";
 class WorkDirectory {
     async changeDirectory(firstArgument, currentDirectory) {
         if (firstArgument === '..') {
-            const parentDirectory = workDirectory.getParentDirname(currentDirectory)
+            const parentDirectory = workDirectory.getParentDirectory(currentDirectory)
             loggingMessages.showCurrentDirectory(parentDirectory)
             return parentDirectory
         }
@@ -22,15 +22,14 @@ class WorkDirectory {
         }
     }
 
-    // TODO: rename 'dirname' to path
-    getParentDirname(dirname) {
-        const splitedDirname = dirname.split(sep)
+    getParentDirectory(path) {
+        const splittedPath = path.split(sep)
 
-        if (splitedDirname.length === 1) return dirname
+        if (splittedPath.length === 1) return path
 
-        splitedDirname.pop()
-        const parentDirname = splitedDirname.join(sep)
-        return parentDirname
+        splittedPath.pop()
+        const parentDirectoryPath = splittedPath.join(sep)
+        return parentDirectoryPath
     }
 
     getPath(filePathOrFileName, workDirectoryPath) {
